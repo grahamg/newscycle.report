@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}bulletlist.report{% endblock %}
+
+{% block toolbar %}
+  <div class="flex justify-between items-center">
+    {% if user.is_authenticated %}
+      <div>
+        Logged in as {{ user.username }}
+      </div>
+      <div>
+        <a href="/config" class="text-black hover:text-blue-700 mr-4">Config</a>
+        <a href="{% url 'logout' %}" class="text-black hover:text-blue-700">Logout</a>
+      </div>
+    {% else %}
+      <a href="{% url 'login' %}" class="text-black hover:text-blue-700">Login</a>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 gap-4">
+    {% for feed_title, feed_items in feeds.items %}
+      {% if feed_items %}
+        <div class="myDiv p-4 border border-gray-300 rounded-md">
+          <h3 class="text-xl font-bold mb-4">{{ feed_title }}</h3>
+          <ul class="list-disc pl-6">
+            {% for item in feed_items %}
+              <li class="mb-2">
+                <a href="{{ item.link }}" class="feed_uri" target="_blank">{{ item.title }}</a>
+                <div class="text-sm w-24/2 shadow-xl border-2 border-opacity-25 bg-slate-100 text-gray-500 hover:text-black">
+                  [ <i><a href="https://archive.ph/submit/?url={{ item.link }}" target="_blank">archive</a></i> | <i><a href="https://12ft.io/{{ item.link }}" target="_blank">proxy</a></i> ]
+                  {% if item.date_time %}
+                    [ {{ item.date_time }} ]
+                  {% endif %}
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}

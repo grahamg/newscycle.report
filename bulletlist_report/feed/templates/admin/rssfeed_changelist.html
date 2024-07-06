@@ -1,0 +1,12 @@
+{% extends 'admin/change_list.html' %}
+
+{% block object-tools %}
+    <div class="object-tools">
+        {% url 'admin:upload_opml' as opml_upload_url %}
+        <ul class="object-tools">
+            <li>
+                <a href="{{ opml_upload_url }}" class="addlink">Upload and Import OPML File</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

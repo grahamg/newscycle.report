@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}bulletlist.report{% endblock %}
+
+{% block toolbar %}
+  <div class="flex justify-between items-center">
+    {% if user.is_authenticated %}
+      <div>
+        Logged in as {{ user.username }}
+      </div>
+      <div>
+        <a href="/config" class="text-black hover:text-black mr-4">Config</a>
+        <a href="{% url 'logout' %}" class="text-black hover:text-black">Logout</a>
+      </div>
+    {% else %}
+      <a href="{% url 'login' %}" class="text-black hover:text-black">Login</a>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block content %}
+	<p>
+		Don't have an account?
+		<a href="{% url 'register' %}"><button>Register</button></a>
+	</p>
+	<p>
+		Already have an Account?<a href="{% url 'login' %}"><button>Login</button></a>
+	</p>
+{% endblock %}

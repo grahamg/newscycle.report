@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>Default Feeds</title>
+  </head>
+  <body>
+    <outline text="Space.com" title="Space.com" type="rss" xmlUrl="https://www.space.com/feeds/all" />
+    <outline text="Phys.org" title="Phys.org" type="rss" xmlUrl="https://phys.org/rss-feed/" />
+    <outline text="Hacker News" title="Hacker News" type="rss" xmlUrl="https://hnrss.org/frontpage" />
+    <outline text="Hacker News Best Comments" title="Hacker News Best Comments" type="rss" xmlUrl="https://hnrss.org/bestcomments" />
+    <outline text="Lobste.rs" title="Lobste.rs" type="rss" xmlUrl="https://lobste.rs/rss" />
+    <outline text="EchoJS" title="EchoJS" type="rss" xmlUrl="https://www.echojs.com/rss" />
+    <outline text="Modernity News" title="Modernity News" type="rss" xmlUrl="https://modernity.news/feed/" />
+    <outline text="Chicago Tribune" title="Chicago Tribune" type="rss" xmlUrl="https://www.chicagotribune.com/arcio/rss/" />
+    <outline text="Chicago Sun Times" title="Chicago Sun Times" type="rss" xmlUrl="https://www.chicago.suntimes.com/rss/index.xml" />
+    <outline text="Zero Hedge" title="Zero Hedge" type="rss" xmlUrl="https://cms.zerohedge.com/fullrss2.xml" />
+    <outline text="The Atlantic" title="The Atlantic" type="rss" xmlUrl="https://www.theatlantic.com/feed/all/" />
+    <outline text="Financial Times" title="Financial Times" type="rss" xmlUrl="https://www.ft.com/rss/home/uk" />
+    <outline text="Wall Street Journal (World News)" title="Wall Street Journal (World News)" type="rss" xmlUrl="https://feeds.a.dj.com/rss/RSSWorldNews.xml" />
+    <outline text="High Times" title="High Times" type="rss" xmlUrl="https://hightimes.com/feed/" />
+    <outline text="Rolling Stone (Music)" title="Rolling Stone (Music)" type="rss" xmlUrl="https://www.rollingstone.com/music/feed/" />
+    <outline text="Semafor" title="Semafor" type="rss" xmlUrl="https://palewi.re/docs/news-homepages/rss/sites/semafor.xml" />
+    <outline text="Business Insider" title="Business Insider" type="rss" xmlUrl="https://feeds.businessinsider.com/custom/all" />
+    <outline text="New York Times" title="New York Times" type="rss" xmlUrl="https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml" />
+    <outline text="New York Times (The Sunday Read)" title="New York Times (The Sunday Read)" type="rss" xmlUrl="https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/spotlight/the-sunday-read/rss.xml" />
+    <outline text="NPR" title="NPR" type="rss" xmlUrl="https://www.npr.org/rss/rss.php" />
+    <outline text="Drudge Report" title="Drudge Report" type="rss" xmlUrl="https://feedpress.me/drudgereportfeed" />
+    <outline text="The Intercept" title="The Intercept" type="rss" xmlUrl="https://theintercept.com/feed/?rss" />
+    <outline text="BBC" title="BBC" type="rss" xmlUrl="http://feeds.bbci.co.uk/news/rss.xml" />
+    <outline text="Quartz" title="Quartz" type="rss" xmlUrl="https://qz.com/feed/" />
+    <outline text="PBS News Hour" title="PBS News Hour" type="rss" xmlUrl="https://www.pbs.org/newshour/feeds/rss/headlines" />
+    <outline text="Fox News" title="Fox News" type="rss" xmlUrl="http://feeds.foxnews.com/foxnews/latest" />
+    <outline text="Breitbart" title="Breitbart" type="rss" xmlUrl="https://feeds.feedburner.com/breitbart" />
+    <outline text="The Economist (United States)" title="The Economist (United States)" type="rss" xmlUrl="https://www.economist.com/united-states/rss.xml" />
+    <outline text="New Yorker" title="New Yorker" type="rss" xmlUrl="https://www.newyorker.com/feed/everything" />
+    <outline text="The Onion" title="The Onion" type="rss" xmlUrl="https://www.theonion.com/rss" />
+    <outline text="Daily Stormer" title="Daily Stormer" type="rss" xmlUrl="https://dailystormer.in/feed/" />
+  </body>
+</opml>
+

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}bulletlist.report{% endblock %}
+
+{% block toolbar %}
+  <div class="flex justify-between items-center">
+	<p>Bulletlist.report: Minimal RSS aggregation without needless features.</p>
+  </div>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col justify-center items-center min-h-screen space-y-4">
+  <form method="POST" class="bg-white p-6 rounded-md shadow-md w-full max-w-sm">
+    {% csrf_token %}
+    <div class="space-y-6">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="mt-6 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+      Log In
+    </button>
+  </form>
+  <p>Don't have an account? <a href="{% url 'register' %}" class="text-blue-500 hover:text-blue-700">Register</a>.</p>
+</div>
+{% endblock %}
