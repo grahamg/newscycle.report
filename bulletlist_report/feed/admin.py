@@ -11,13 +11,13 @@ class RSSFeedCategoryAdmin(admin.ModelAdmin):
 @admin.register(RSSFeedItem)
 class RSSFeedItemAdmin(admin.ModelAdmin):
     list_display = ('title', 'link', 'feed', 'pub_date')
-    list_filter = ('title', 'feed')
+    list_filter = ('feed',)
 
 @admin.register(RSSFeed)
 class RSSFeedAdmin(admin.ModelAdmin):
     change_list_template = "admin/rssfeed_changelist.html"
     list_display = ('title', 'link', 'pub_date', 'updated')
-    search_fields = ('title', 'description')
+    search_fields = ('title', 'description', 'category')
     
     def get_urls(self):
             urls = super().get_urls()
