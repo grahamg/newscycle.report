@@ -2,8 +2,14 @@ from django.conf import settings
 from django.db import models
 from datetime import datetime
 
+class RSSFeedCategory(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    
+    def __str__(self):
+        return self.name
+
 class RSSFeed(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
     link = models.URLField(unique=True)
     description = models.TextField(blank=True, null=True)
     pub_date = models.DateTimeField(auto_now=True)
@@ -18,9 +24,6 @@ class RSSFeedItem(models.Model):
     link = models.URLField(unique=True)
     pub_date = models.DateTimeField(auto_now=True)
     feed = models.ForeignKey(RSSFeed, on_delete=models.CASCADE)
-    
-    class Meta:
-        unique_together = ('link', 'feed')
     
     def __str__(self):
         return f'{self.title} -> {self.link}'
