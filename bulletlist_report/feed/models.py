@@ -13,6 +13,18 @@ class RSSFeed(models.Model):
     def __str__(self):
         return self.title
 
+class RSSFeedItem(models.Model):
+    title = models.CharField(max_length=255)
+    link = models.URLField(unique=True)
+    pub_date = models.DateTimeField(auto_now=True)
+    feed = models.ForeignKey(RSSFeed, on_delete=models.CASCADE)
+    
+    class Meta:
+        unique_together = ('link', 'feed')
+    
+    def __str__(self):
+        return f'{self.title} -> {self.link}'
+
 class UserSubscription(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     feed = models.ForeignKey(RSSFeed, on_delete=models.CASCADE)
@@ -23,3 +35,16 @@ class UserSubscription(models.Model):
 
     def __str__(self):
         return f'{self.user.username} subscribed to {self.feed.title}'
+
+class UserBookmark(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    rss_feed_item = models.ForeignKey(RSSFeedItem, on_delete=models.CASCADE)
+    added_on = models.DateTimeField(auto_now_add=True)
+    comment = models.CharField(max_length=255)
+    visible = models.BooleanField(default=True)
+    
+    class Meta:
+        unique_together = ('user', 'rss_feed_item')
+    
+    def __str__(self):
+        return f'{self.user.username} bookmarked rss item "{self.rss_feed_item}" from {self.rss_feed_item.feed}'
