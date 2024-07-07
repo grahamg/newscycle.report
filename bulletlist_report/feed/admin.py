@@ -15,7 +15,7 @@ class RSSFeedItemAdmin(admin.ModelAdmin):
 @admin.register(RSSFeed)
 class RSSFeedAdmin(admin.ModelAdmin):
     change_list_template = "admin/rssfeed_changelist.html"
-    list_display = ('title', 'link', 'pub_date', 'updated')
+    list_display = ('title', 'link', 'category', 'pub_date', 'updated')
     search_fields = ('title', 'description', 'category')
     
     def get_urls(self):
