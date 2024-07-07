@@ -1,7 +1,12 @@
 from django.contrib import admin
 from django.urls import path
-from .models import RSSFeed, UserSubscription
+from .models import RSSFeed, RSSFeedItem, UserSubscription, UserBookmark
 from .views import upload_opml
+
+@admin.register(RSSFeedItem)
+class RSSFeedItemAdmin(admin.ModelAdmin):
+    list_display = ('title', 'link', 'feed', 'pub_date')
+    list_filter = ('title', 'feed')
 
 @admin.register(RSSFeed)
 class RSSFeedAdmin(admin.ModelAdmin):
@@ -20,3 +25,8 @@ class RSSFeedAdmin(admin.ModelAdmin):
 class UserSubscriptionAdmin(admin.ModelAdmin):
     list_display = ('user', 'feed', 'subscribed_on')
     list_filter = ('user', 'feed')
+
+@admin.register(UserBookmark)
+class UserBookmarkAdmin(admin.ModelAdmin):
+    list_display = ('user','rss_feed_item','added_on','visible')
+    list_filter = ('user','visible')
