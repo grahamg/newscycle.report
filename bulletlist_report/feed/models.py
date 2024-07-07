@@ -15,6 +15,7 @@ class RSSFeed(models.Model):
     pub_date = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now=True)
     default_page = models.BooleanField(default=True)
+    category = models.ForeignKey(RSSFeedCategory, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

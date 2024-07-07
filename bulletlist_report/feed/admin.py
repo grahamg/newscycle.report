@@ -1,7 +1,12 @@
 from django.contrib import admin
 from django.urls import path
-from .models import RSSFeed, RSSFeedItem, UserSubscription, UserBookmark
+from .models import RSSFeed, RSSFeedCategory, RSSFeedItem, UserSubscription, UserBookmark
 from .views import upload_opml
+
+@admin.register(RSSFeedCategory)
+class RSSFeedCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    list_filter = ('name',)
 
 @admin.register(RSSFeedItem)
 class RSSFeedItemAdmin(admin.ModelAdmin):
