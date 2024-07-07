@@ -6,7 +6,6 @@ from .views import upload_opml
 @admin.register(RSSFeedCategory)
 class RSSFeedCategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
-    list_filter = ('name',)
 
 @admin.register(RSSFeedItem)
 class RSSFeedItemAdmin(admin.ModelAdmin):
