@@ -6,9 +6,11 @@ function removeAllEventListeners(element) {
     element.parentNode.replaceChild(newElement, element);
 }
 
-const userBookmark = (id, action) => {
+const userBookmark = (event, id, action) => {
+	event.preventDefault();
+	
 	const postData = {
-	    id: id,
+		id: id,
 		action: action,
 	};
 	const url = `/api/v1/bookmark/`;
