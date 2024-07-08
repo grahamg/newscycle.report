@@ -27,7 +27,6 @@ const getBookmarks = () => {
         .then(data => {
             for (const key in data.bookmark_feed_item_mapping) {
                 if (data.bookmark_feed_item_mapping.hasOwnProperty(key)) {
-                    console.log(data.bookmark_feed_item_mapping[key]);
 					let id = data.bookmark_feed_item_mapping[key];
 					let selectedBookmarkAnchor = document.getElementById(`rss-feed-item-id-${id}`);
 					if (selectedBookmarkAnchor!= null) {
