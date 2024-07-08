@@ -4,8 +4,13 @@
 {% block title %}bulletlist.report{% endblock %}
 
 {% block head %}
-  <script src="{% static 'js/cookie.js' %}"></script>
-  <script src="{% static 'js/bookmarks.js' %}"></script>
+	<script src="{% static 'js/cookie.js' %}"></script>
+	<script src="{% static 'js/bookmarks.js' %}"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			getBookmarks();
+		});
+	</script>
 {% endblock %}
 
 {% block toolbar %}

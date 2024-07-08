@@ -84,6 +84,17 @@ def bookmarks(request, username):
 class APIBookmarkActionView(APIView):
     permission_classes = [IsAuthenticated]
     
+    def get(self, request, *args, **kwargs):
+        bookmark_feed_item_mapping = {}
+        user_bookmarks = UserBookmark.objects.filter(user=request.user, visible=True)
+        for bookmark in user_bookmarks:
+            bookmark_feed_item_mapping[bookmark.id] = bookmark.rss_feed_item.id
+        response_data = {
+            'status': 'success',
+            'bookmark_feed_item_mapping': bookmark_feed_item_mapping,
+        }
+        return Response(response_data, status=status.HTTP_200_OK)
+    
     def post(self, request, *args, **kwargs):
         data = request.data
         rss_feed_item_id = data.get('id')
