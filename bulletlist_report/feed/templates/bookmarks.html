@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}bulletlist.report{% endblock %}
+
+{% block head %}
+  <script src="{% static 'js/cookie.js' %}"></script>
+  <script src="{% static 'js/bookmarks.js' %}"></script>
+{% endblock %}
+
+{% block toolbar %}
+  <div class="flex justify-between items-center">
+    {% if user.is_authenticated %}
+      <div>
+        Logged in as <a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700">{{ user.username }}</a>
+      </div>
+      <div>
+        <a href="/" class="text-black hover:text-blue-700 mr-4">Feeds</a>
+        <a href="{% url 'config' %}" class="text-black hover:text-blue-700 mr-4">Subscriptions</a>
+        <a href="{% url 'logout' %}" class="text-black hover:text-blue-700 mr-4">Logout</a>
+      </div>
+    {% else %}
+      <a href="{% url 'login' %}" class="text-black hover:text-blue-700">Login</a>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block content %}
+	{% if user.username != url_username %}
+		<h2 class="text-2xl font-bold mb-4">Bookmarks saved by {{ url_username }}</h2>
+	{% else %}
+		<h2 class="text-2xl font-bold mb-4">Bookmarks</h2>
+	{% endif %}
+	<div class="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-1 gap-4">
+	  <ul class="list-disc pl-1">
+	  {% for headline in bookmarks %}
+	  <li class="mb-2">
+	  	<a href="{{ headline.rss_feed_item.link }}" class="feed_uri" target="_blank">{{ headline.rss_feed_item.title }}</a>
+	  	<div class="text-sm w-24/2 shadow-xl border-2 border-opacity-25 bg-slate-100 text-gray-500 hover:text-black">
+			{% if headline.comment %}
+			    <p>[ {% if user.username != url_username %}{{ url_username }} commented: {% endif %}<i>"{{ headline.comment }}"</i> ]</p>
+			{% endif %}
+			{% if user.is_authenticated and user.username == url_username %}
+			    [ <a href="#" onClick="userBookmark({{ headline.rss_feed_item.id }}, 'remove')" class="rss-feed-item" id="rss-feed-item-id-{{ headline.rss_feed_item.id }}">❎</a> ]
+			{% endif %}
+			[ {{ headline.rss_feed_item.feed }} ]
+			[ <i><a href="https://archive.ph/submit/?url={{ headline.rss_feed_item.link }}" target="_blank">archive</a></i> | <i><a href="https://12ft.io/{{ headline.rss_feed_item.link }}" target="_blank">proxy</a></i> ]
+			[ {{ headline.rss_feed_item.pub_date }} ]
+		</div>
+	  </li>
+	  {% endfor %}
+	  </ul>
+	</div>
+{% endblock %}

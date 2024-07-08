@@ -1,10 +1,19 @@
 import feedparser
+
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import ObjectDoesNotExist
+from django.db import IntegrityError
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+
 from .forms import OPMLUploadForm, SubscriptionForm
-from .models import RSSFeed, UserSubscription
+from .models import RSSFeed, RSSFeedItem, UserSubscription, UserBookmark
 
 def index(request):
     subscriptions = []
@@ -26,10 +35,19 @@ def index(request):
         parsed_feed_link = feedparser.parse(feed.link)
         feeds_by_source[feed.title] = []
         for entry in parsed_feed_link.entries:
+            try:
+                rss_feed_item, rss_feed_item_created = RSSFeedItem.objects.get_or_create(
+                    title=entry.title,
+                    link=entry.link,
+                    feed=feed
+                )
+            except IntegrityError as e:
+                continue
             feeds_by_source[feed.title].append({
                 'title': entry.title,
                 'date_time': entry.get('published', ''),
-                'link': entry.link
+                'link': entry.link,
+                'rss_feed_item_id': rss_feed_item.id,
             })
     
     return render(request, 'feeds.html', {'feeds': feeds_by_source})
@@ -56,6 +74,50 @@ def config(request):
         form = SubscriptionForm(initial={'feeds': user_feeds})
 
     return render(request, 'config.html', {'form': form})
+
+def bookmarks(request, username):
+    url_user = User.objects.get(username=username)
+    bookmarks = UserBookmark.objects.filter(user=url_user, visible=True).order_by('-added_on')
+    context = {'url_username': username, 'bookmarks': bookmarks}
+    return render(request, 'bookmarks.html', context)
+
+class APIBookmarkActionView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        rss_feed_item_id = data.get('id')
+        action = data.get('action')
+
+        if not rss_feed_item_id or not action:
+            return Response({'error': 'id and action json keys are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        rss_feed_item = RSSFeedItem.objects.get(id=rss_feed_item_id)
+        if action == 'add':
+            try:
+                user_bookmark, user_bookmark_created = UserBookmark.objects.get_or_create(
+                    user=request.user,
+                    rss_feed_item=rss_feed_item
+                )
+                user_bookmark.visible = True
+                user_bookmark.save()
+            except IntegrityError as e:
+                pass
+        elif action == 'remove':
+            user_bookmark = UserBookmark.objects.get(user=request.user, rss_feed_item=rss_feed_item)
+            user_bookmark_created = False
+            user_bookmark.visible = False
+            user_bookmark.save()
+        else:
+            return Response({'error': 'action json value should either be add or remove.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        response_data = {
+            'id': user_bookmark.id,
+            'action': action,
+            'status': 'success',
+            'created': user_bookmark_created,
+        }
+        return Response(response_data, status=status.HTTP_200_OK)
 
 @staff_member_required
 def upload_opml(request):

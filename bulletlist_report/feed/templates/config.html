@@ -6,11 +6,12 @@
   <div class="flex justify-between items-center">
     {% if user.is_authenticated %}
       <div>
-        Logged in as {{ user.username }}
+        Logged in as <a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700">{{ user.username }}</a>
       </div>
       <div>
+        <a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700 mr-4">Bookmarks</a>
         <a href="/" class="text-black hover:text-blue-700 mr-4">Feeds</a>
-        <a href="{% url 'logout' %}" class="text-black hover:text-blue-700">Logout</a>
+        <a href="{% url 'logout' %}" class="text-black hover:text-blue-700 mr-4">Logout</a>
       </div>
     {% else %}
       <a href="{% url 'login' %}" class="text-black hover:text-blue-700">Login</a>

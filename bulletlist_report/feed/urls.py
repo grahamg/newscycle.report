@@ -4,5 +4,7 @@ from . import views as feed_views
 
 urlpatterns = [
     path('', feed_views.index, name='index'),
-    path('config', feed_views.config, name='config'),
+    path('~<str:username>/', feed_views.bookmarks, name='bookmarks'),
+    path('config/', feed_views.config, name='config'),
+    path('api/v1/bookmark/', feed_views.APIBookmarkActionView.as_view(), name='api_bookmark'),
 ]
