@@ -32,6 +32,9 @@ const getBookmarks = () => {
 					if (selectedBookmarkAnchor!= null) {
 						selectedBookmarkAnchor.textContent = '✔';
 						selectedBookmarkAnchor.removeAttribute('onclick');
+						selectedBookmarkAnchor.onclick = function(event) {
+							event.preventDefault();
+						};
 					}
                 }
             }
