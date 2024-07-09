@@ -55,7 +55,7 @@ def index(request):
     return render(request, 'feeds.html', {'feeds': feeds_by_source})
 
 @login_required
-def config(request):
+def subscriptions(request):
     if request.method == 'POST':
         form = SubscriptionForm(request.POST)
         if form.is_valid():
@@ -75,7 +75,7 @@ def config(request):
         user_feeds = UserSubscription.objects.filter(user=request.user).values_list('feed', flat=True)
         form = SubscriptionForm(initial={'feeds': user_feeds})
 
-    return render(request, 'config.html', {'form': form})
+    return render(request, 'subscriptions.html', {'form': form})
 
 def bookmarks(request, username):
     url_user = User.objects.get(username=username)

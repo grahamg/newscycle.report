@@ -21,7 +21,7 @@
       </div>
       <div>
         <a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700 mr-4">Bookmarks</a>
-        <a href="{% url 'config' %}" class="text-black hover:text-blue-700 mr-4">Subscriptions</a>
+        <a href="{% url 'subscriptions' %}" class="text-black hover:text-blue-700 mr-4">Subscriptions</a>
         <a href="{% url 'logout' %}" class="text-black hover:text-blue-700 mr-4">Logout</a>
       </div>
     {% else %}

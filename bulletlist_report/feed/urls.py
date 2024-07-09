@@ -6,6 +6,6 @@ urlpatterns = [
     path('', feed_views.index, name='index'),
     path('~<str:username>/', feed_views.bookmarks, name='bookmarks'),
     re_path(r'^~(?P<username>[\w.@+-]+)/(?P<format>(raw|json|xml))/$', feed_views.bookmarks_format, name='bookmarks_format'),
-    path('config/', feed_views.config, name='config'),
+    path('subscriptions/', feed_views.subscriptions, name='subscriptions'),
     path('api/v1/bookmark/', feed_views.APIBookmarkActionView.as_view(), name='api_bookmark'),
 ]
