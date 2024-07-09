@@ -27,9 +27,13 @@
 
 {% block content %}
 	{% if user.username != url_username %}
-		<h2 class="text-2xl font-bold mb-4">Bookmarks saved by {{ url_username }}</h2>
+		<h2 class="text-2xl font-bold mb-4">
+			Bookmarks saved by {{ url_username }} [ <a href="{% url 'bookmarks_format' url_username 'raw' %}" class="text-black hover:text-blue-700">raw</a> | <a href="{% url 'bookmarks_format' url_username 'json' %}" class="text-black hover:text-blue-700">json</a> | <a href="{% url 'bookmarks_format' url_username 'xml' %}" class="text-black hover:text-blue-700">xml</a> ]
+		</h2>
 	{% else %}
-		<h2 class="text-2xl font-bold mb-4">Bookmarks</h2>
+		<h2 class="text-2xl font-bold mb-4">
+			Bookmarks [ <a href="{% url 'bookmarks_format' url_username 'raw' %}" class="text-black hover:text-blue-700">raw</a> | <a href="{% url 'bookmarks_format' url_username 'json' %}" class="text-black hover:text-blue-700">json</a> | <a href="{% url 'bookmarks_format' url_username 'xml' %}" class="text-black hover:text-blue-700">xml</a> ]
+		</h2>
 	{% endif %}
 	<div class="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-1 gap-4">
 	  <ul class="list-disc pl-1">
