@@ -10,7 +10,7 @@ class SubscriptionForm(forms.ModelForm):
         fields = ['feeds']
 
     feeds = forms.ModelMultipleChoiceField(
-        queryset=RSSFeed.objects.all(),
+        queryset=RSSFeed.objects.filter(visible=True),
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
