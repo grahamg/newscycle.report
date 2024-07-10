@@ -4,8 +4,13 @@
 {% block title %}bulletlist.report{% endblock %}
 
 {% block head %}
-  <script src="{% static 'js/cookie.js' %}"></script>
-  <script src="{% static 'js/bookmarks.js' %}"></script>
+	<script src="{% static 'js/cookie.js' %}"></script>
+	<script src="{% static 'js/bookmarks.js' %}"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			getBookmarks();
+		});
+	</script>
 {% endblock %}
 
 {% block toolbar %}
@@ -45,7 +50,9 @@
 			    <p>[ {% if user.username != url_username %}{{ url_username }} commented: {% endif %}<i>"{{ headline.comment }}"</i> ]</p>
 			{% endif %}
 			{% if user.is_authenticated and user.username == url_username %}
-			    [ <a href="#" onClick="userBookmark(event, {{ headline.rss_feed_item.id }}, 'remove')" class="rss-feed-item" id="rss-feed-item-id-{{ headline.rss_feed_item.id }}">❎</a> ]
+				[ <a href="#" onClick="userBookmark(event, {{ headline.rss_feed_item.id }}, 'remove')" class="rss-feed-item" id="rss-feed-item-id-{{ headline.rss_feed_item.id }}">❎</a> ]
+			{% else %}
+				[ <a href="#" onClick="userBookmark(event, {{ headline.rss_feed_item.id }}, 'add')" class="rss-feed-item" id="rss-feed-item-id-{{ headline.rss_feed_item.id }}">🔖</a> ]
 			{% endif %}
 			[ {{ headline.rss_feed_item.feed }} ]
 			[ <i><a href="https://archive.ph/submit/?url={{ headline.rss_feed_item.link }}" target="_blank">archive</a></i> | <i><a href="https://12ft.io/{{ headline.rss_feed_item.link }}" target="_blank">proxy</a></i> ]
