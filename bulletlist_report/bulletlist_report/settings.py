@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-zphv3=gl#=6fkttle3(xr2(1o0nq5f&^^kr%y_=(bq_3gltf+='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -74,22 +74,10 @@ WSGI_APPLICATION = 'bulletlist_report.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-import os
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -141,3 +129,15 @@ INSTALLED_APPS += ['user', 'feed']
 LOGIN_REDIRECT_URL = 'index'
 
 LOGOUT_REDIRECT_URL = '/'
+
+# Override the pre-defined settings set earlier in this file with
+# what is defined in production_settings.py which is not managed by git.
+PRODUCTION_SETTINGS_FILE = Path(__file__).resolve().parent / 'production_settings.py'
+
+if PRODUCTION_SETTINGS_FILE.is_file():
+    try:
+        with open(PRODUCTION_SETTINGS_FILE) as f:
+            code = compile(f.read(), PRODUCTION_SETTINGS_FILE, 'exec')
+            exec(code, globals())
+    except Exception as e:
+        raise ImportError(f"Could not import production settings from {PRODUCTION_SETTINGS_FILE}: {e}")
