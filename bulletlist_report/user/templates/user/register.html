@@ -4,20 +4,58 @@
 
 {% block toolbar %}
   <div class="flex justify-between items-center">
-	<p>bulletlist.report: minimal rss aggregation without needless features.</p>
+	<p>Bulletlist.report: Minimal rss aggregation without needless features.</p>
   </div>
 {% endblock %}
 
 {% block content %}
 <div class="flex flex-col justify-center items-center min-h-screen space-y-4">
-  <form method="POST" class="bg-white p-6 rounded-md shadow-md w-full max-w-xl">
-    {% csrf_token %}
-    <div class="space-y-6">
-      {{ form.as_p }}
-    </div>
-    <button type="submit" class="mt-6 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-      Register
-    </button>
-  </form>
-  <p>Already have an account? <a href="{% url 'login' %}" class="text-blue-500 hover:text-blue-700">Log In</a>.</p>
+	<form method="POST" class="bg-white p-6 rounded-md shadow-md w-full max-w-xl">
+		{% csrf_token %}
+		
+		{% if form.non_field_errors %}
+			<div class="text-red-600">
+				{{ form.non_field_errors }}
+			</div>
+		{% endif %}
+		
+		<label for="id_username">{{ form.username.label }}</label>
+		{{ form.username }}
+		{% if form.username.errors %}
+			<div class="text-red-600">
+				{{ form.username.errors }}
+			</div>
+		{% endif %}
+		<small class="text-gray-600">{{ form.username.help_text }}</small>
+		<p>
+			<label for="id_email">{{ form.email.label }}</label>
+			{{ form.email }}
+			{% if form.email.errors %}
+				<div class="text-red-600">
+					{{ form.email.errors }}
+				</div>
+			{% endif %}
+			<small class="text-gray-600">{{ form.email.help_text }}</small>
+		</p>
+		<label for="id_password1">{{ form.password1.label }}</label>
+		{{ form.password1 }}
+		{% if form.password1.errors %}
+			<div class="text-red-600">
+				{{ form.password1.errors }}
+			</div>
+		{% endif %}
+		<small class="text-gray-600">{{ form.password1.help_text }}</small>
+
+		<label for="id_password2">{{ form.password2.label }}</label>
+		{{ form.password2 }}
+		{% if form.password2.errors %}
+			<div class="text-red-600">
+				{{ form.password2.errors }}
+			</div>
+		{% endif %}
+		<small class="text-gray-600">{{ form.password2.help_text }}</small>
+		<button type="submit" class="mt-6 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Register</button>
+	</form>
+	<p>Already have an account? <a href="{% url 'login' %}" class="text-blue-500 hover:text-blue-700">Log In</a>.</p>
+</div>
 {% endblock %}
