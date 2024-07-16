@@ -1,3 +1,4 @@
+db.sqlite
 production_settings.py
 .DS_store
 
