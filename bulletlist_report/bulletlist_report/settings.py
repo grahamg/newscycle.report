@@ -132,12 +132,12 @@ LOGOUT_REDIRECT_URL = '/'
 
 # Override the pre-defined settings set earlier in this file with
 # what is defined in production_settings.py which is not managed by git.
-PRODUCTION_SETTINGS_FILE = Path(__file__).resolve().parent / 'production_settings.py'
+UNTRACKED_SETTINGS_FILE = Path(__file__).resolve().parent / 'untracked_settings.py'
 
-if PRODUCTION_SETTINGS_FILE.is_file():
+if UNTRACKED_SETTINGS_FILE.is_file():
     try:
-        with open(PRODUCTION_SETTINGS_FILE) as f:
-            code = compile(f.read(), PRODUCTION_SETTINGS_FILE, 'exec')
+        with open(UNTRACKED_SETTINGS_FILE) as f:
+            code = compile(f.read(), UNTRACKED_SETTINGS_FILE, 'exec')
             exec(code, globals())
     except Exception as e:
-        raise ImportError(f"Could not import production settings from {PRODUCTION_SETTINGS_FILE}: {e}")
+        raise ImportError(f"Could not import production settings from {UNTRACKED_SETTINGS_FILE}: {e}")

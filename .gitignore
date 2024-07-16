@@ -1,6 +1,6 @@
 bulletlist_report/staticfiles/
 db.sqlite
-production_settings.py
+untracked_settings.py
 .DS_store
 
 # Byte-compiled / optimized / DLL files
