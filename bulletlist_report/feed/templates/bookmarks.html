@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}bulletlist.report{% endblock %}
 
@@ -49,7 +50,7 @@
 	  <ul class="list-disc pl-1">
 	  {% for headline in bookmarks %}
 	  <li class="mb-2">
-	  	<a href="{{ headline.rss_feed_item.link }}" class="feed_uri" target="_blank">{{ headline.rss_feed_item.title }}</a>
+	  	<a href="{{ headline.rss_feed_item.link }}" class="feed_uri" target="_blank">{{ headline.rss_feed_item.title|truncate_long_words:30 }}</a>
 	  	<div class="text-sm w-24/2 shadow-xl border-2 border-opacity-25 bg-slate-100 text-gray-500 hover:text-black">
 			{% if headline.comment %}
 			    <p>[ {% if user.username != url_username %}{{ url_username }} commented: {% endif %}<i>"{{ headline.comment }}"</i> ]</p>
