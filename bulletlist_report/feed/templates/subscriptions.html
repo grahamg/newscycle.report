@@ -14,7 +14,10 @@
         <a href="{% url 'logout' %}" class="text-black hover:text-blue-700 mr-4">Logout</a>
       </div>
     {% else %}
-      <a href="{% url 'login' %}" class="text-black hover:text-blue-700">Login</a>
+		<div>
+			<a href="{% url 'login' %}" class="text-black hover:text-blue-700 mr-4">Login</a>
+			<a href="{% url 'register' %}" class="text-black hover:text-blue-700">Register</a>
+		</div>
     {% endif %}
   </div>
 {% endblock %}
