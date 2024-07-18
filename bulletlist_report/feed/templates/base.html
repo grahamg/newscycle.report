@@ -15,26 +15,34 @@
 	{% block toolbar %}
 	{% endblock %}
 	</div>
-	
-  <!-- Display messages -->
-  {% if messages %}
-    <div class="mb-4">
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} p-4 mb-4 border rounded-md">
-          {{ message }}
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
 
-  <div class="container mx-auto">
-    {% block content %}
-    {% endblock %}
-  </div>
-  
-  <!-- Footer -->
-  <footer class="bg-gray-100 text-black text-center py-4">
-    <p>&copy; 2024 Bulletlist.report. All rights reserved.</p>
-  </footer>
+	<!-- Feedback messages -->
+	{% if messages %}
+	  <div class="mb-4">
+	    {% for message in messages %}
+	      <div class="alert alert-{{ message.tags }} p-4 mb-4 border rounded-md flex justify-between items-center">
+			<div>
+				<span>{{ message }}</span>
+			</div>
+			<div>
+				<button type="button" class="close ml-auto" aria-label="Close" onclick="this.parentElement.parentElement.style.display='none';">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+	      </div>
+	    {% endfor %}
+	  </div>
+	{% endif %}
+
+	<!-- Content -->
+	<div class="container mx-auto">
+	{% block content %}
+	{% endblock %}
+	</div>
+
+	<!-- Footer -->
+	<footer class="bg-gray-100 text-black text-center py-4">
+	<p>&copy; 2024 Bulletlist.report. All rights reserved.</p>
+	</footer>
 </body>
 </html>
