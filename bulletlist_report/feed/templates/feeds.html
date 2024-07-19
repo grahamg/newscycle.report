@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load custom_filters %}
+{% load slugify_tags %}
 
 {% block title %}bulletlist.report{% endblock %}
 
@@ -8,9 +9,12 @@
 	<link href="{% static 'css/feeds.css' %}" rel="stylesheet">
 	<script src="{% static 'js/cookie.js' %}"></script>
 	<script src="{% static 'js/bookmarks.js' %}"></script>
+	<script src="{% static 'js/mobile.js' %}"></script>
+	<script src="{% static 'js/feed_tab_select.js' %}"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			getBookmarks();
+			initFeedTabSelect();
 		});
 	</script>
 {% endblock %}
@@ -40,7 +44,7 @@
 		{% for feed_title, feed_items in feeds.items %}
 			{% if feed_items %}
 				<div class="item p-4 border border-gray-300 rounded-md h-auto">
-					<h3 class="text-xl font-bold mb-4">{{ feed_title }}</h3>
+					<h3 id="{{ feed_title|slugify_string }}" class="feed-title text-xl font-bold mb-4">{{ feed_title }}</h3>
 					<ul class="list-disc pl-6">
 						{% for item in feed_items %}
 							<li class="mb-2">

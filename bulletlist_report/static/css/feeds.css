@@ -60,6 +60,10 @@
     padding: 1rem; /* Padding for the list */
 }
 
+.glow {
+    text-shadow: 0 0 20px rgba(28, 100, 242, 0.8);
+}
+
 ul {
     list-style-type: disc; /* Visible bullets */
     padding-left: 1.5rem; /* Indentation for bullets */
