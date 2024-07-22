@@ -73,6 +73,17 @@ ul {
 	display:none;
 }
 
+.scroll-to-top {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background-color: rgba(0, 0, 0, 0.7);
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
+	display: none;
+}
+
 .minimized-feed-list {
 	position: fixed;
 	bottom: 20px;

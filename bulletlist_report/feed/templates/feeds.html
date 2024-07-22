@@ -12,6 +12,7 @@
 	<script src="{% static 'js/mobile.js' %}"></script>
 	<script src="{% static 'js/feed_tab_select.js' %}"></script>
 	<script src="{% static 'js/shade.js' %}"></script>
+	<script src="{% static 'js/scroll.js' %}"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			getBookmarks();
@@ -46,6 +47,10 @@
 {% endblock %}
 
 {% block content %}
+	<div onClick="scrollTo({ top: 0, behavior: 'smooth' })" class="scroll-to-top">
+		<a href="#">⤒</a>
+	</div>
+
 	<div class="minimized-feed-list">
 		<ul>
 		</ul>
