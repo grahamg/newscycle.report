@@ -33,6 +33,7 @@
 				Logged in as <a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700">{{ user.username }}</a>
 			</div>
 			<div>
+				<a href="{% url 'about' %}" class="text-black hover:text-blue-700 mr-4">About</a>
 				<a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700 mr-4">Bookmarks</a>
 				<a href="{% url 'subscriptions' %}" class="text-black hover:text-blue-700 mr-4">Subscriptions</a>
 				<a href="{% url 'logout' %}" class="text-black hover:text-blue-700 mr-4">Logout</a>
@@ -41,6 +42,9 @@
 			<div>
 				<a href="{% url 'login' %}" class="text-black hover:text-blue-700 mr-4">Login</a>
 				<a href="{% url 'register' %}" class="text-black hover:text-blue-700">Register</a>
+			</div>
+			<div>
+				<a href="{% url 'about' %}" class="text-black hover:text-blue-700">About</a>
 			</div>
 		{% endif %}
 	</div>

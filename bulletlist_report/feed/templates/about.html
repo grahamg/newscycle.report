@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}bulletlist.report{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block toolbar %}
+  <div class="flex justify-between items-center">
+    {% if user.is_authenticated %}
+      <div>
+        Logged in as <a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700">{{ user.username }}</a>
+      </div>
+      <div>
+        <a href="/" class="text-black hover:text-blue-700 mr-4">Feeds</a>
+        <a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700 mr-4">Bookmarks</a>
+        <a href="{% url 'subscriptions' %}" class="text-black hover:text-blue-700 mr-4">Subscriptions</a>
+        <a href="{% url 'logout' %}" class="text-black hover:text-blue-700 mr-4">Logout</a>
+      </div>
+    {% else %}
+      <div>
+        <a href="{% url 'login' %}" class="text-black hover:text-blue-700 mr-4">Login</a>
+        <a href="{% url 'register' %}" class="text-black hover:text-blue-700">Register</a>
+      </div>
+      <div>
+        <a href="/" class="text-black hover:text-blue-700">Feeds</a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="p-6 max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-4">About</h1>
+    <p class="mb-4 text-gray-700 leading-relaxed">
+      The primary goal of Bulletlist.report is to provide a non-distracting user interface for consuming and scanning news headlines at scale. This means a UI with a high information density (signal-to-noise ratio), allowing users to scan headlines from multiple news sources at once and form a broad context of related story items. For example, this service was being developed when President Biden dropped out of the 2024 presidential race (the week of July 21st). The ability to view breaking news headlines from sources like `Zero Hedge`, `The Economist`, `Financial Times`, `The Atlantic`, `Breitbart`, and others on the same screen allows users to gain a wider context of what is happening.
+    </p>
+    <p class="mb-4 text-gray-700 leading-relaxed">
+      Furthermore, this web application offers several features in addition to its high information density:
+    </p>
+    <ul class="list-disc list-inside mb-4 text-gray-700 leading-relaxed">
+      <li>Easily search through all subscribed news sources by searching the text on the current page, using built-in browser functionality for simplicity.</li>
+      <li>Save individual news articles into personalized curated lists that users can either share publicly or keep private.</li>
+      <li>Customize the news feeds that appear on an authenticated user's front page.</li>
+      <li>Collapse or expand individual news sources as needed to display only a subset of subscribed sources.</li>
+      <li>Provide a non-bloated, minimal front-end that uses vanilla JavaScript with no large dependencies to download.</li>
+      <li>Adopt a word-of-mouth membership model, focusing on non-profit aims and utilitarianism rather than rapid user growth.</li>
+    </ul>
+    <p class="mb-4 text-gray-700 leading-relaxed">
+      Any new features added to this web application will be documented here with updates noted by their date of release. The remainder of this document further details the major features summarized above.
+    </p>
+    <h3 class="text-2xl font-semibold mb-2">Contact</h3>
+    <p class="text-gray-700 leading-relaxed">
+      The site administrator can be reached at <a href="mailto:admin@bulletlist.report" class="text-blue-600 hover:underline">admin@bulletlist.report</a>. This email contact is provided for matters such as account deletions, bug reports, general site-related questions, and feature enhancements. Requests and inquiries unrelated to site usability, availability, or user account data will be disregarded.
+    </p>
+    <p class="text-gray-700 leading-relaxed">
+      Please note that this website is generally not intended for mass public consumption. You are aware of it because I (the developer and administrator) or someone who knows me has passed the word along to you. I prefer to keep users within a somewhat close personal network. This website is not intended for the general public.
+    </p>
+  </div>
+{% endblock %}

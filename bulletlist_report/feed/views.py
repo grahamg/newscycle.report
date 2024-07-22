@@ -63,6 +63,9 @@ def index(request):
     
     return render(request, 'feeds.html', {'feeds': feeds_by_source})
 
+def about(request):
+    return render(request, 'about.html')
+
 @login_required
 def subscriptions(request):
     if request.method == 'POST':
