@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import ObjectDoesNotExist
@@ -21,6 +22,13 @@ from .models import RSSFeed, RSSFeedItem, UserSubscription, UserBookmark
 def index(request):
     subscriptions = []
     feeds_by_source = {}
+    
+    # Check if this is the user's first visit
+    if not request.session.get('has_visited', False):
+        welcome_message = render_to_string('new_visitor_message.html',
+            {'request': request, 'user': request.user})
+        messages.info(request, welcome_message)
+        request.session['has_visited'] = True
     
     if not request.user.is_authenticated:
         subscriptions = RSSFeed.objects.filter(default_page=True)
