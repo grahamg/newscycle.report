@@ -11,10 +11,16 @@
 	<script src="{% static 'js/bookmarks.js' %}"></script>
 	<script src="{% static 'js/mobile.js' %}"></script>
 	<script src="{% static 'js/feed_tab_select.js' %}"></script>
+	<script src="{% static 'js/shade.js' %}"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			getBookmarks();
+			
 			initFeedTabSelect();
+			
+			const minimizedFeedList = document.querySelector('.minimized-feed-list');
+			minimizedFeedList.style.display = 'none';
+			initShade();
 		});
 	</script>
 {% endblock %}
@@ -40,11 +46,23 @@
 {% endblock %}
 
 {% block content %}
+	<div class="minimized-feed-list">
+		<ul>
+		</ul>
+	</div>
+
 	<div class="masonry">
 		{% for feed_title, feed_items in feeds.items %}
 			{% if feed_items %}
 				<div class="item p-4 border border-gray-300 rounded-md h-auto">
-					<h3 id="{{ feed_title|slugify_string }}" class="feed-title text-xl font-bold mb-4">{{ feed_title }}</h3>
+					<div class="flex justify-between items-center">
+						<div>
+							<h3 id="{{ feed_title|slugify_string }}" class="feed-title text-xl font-bold mb-4">{{ feed_title }}</h3>
+						</div>
+						<div>
+							<a href="#" id="toggle-shade-{{ feed_title|slugify_string }}" class="toggle-shade text-black hover:text-blue-700">#</a>
+						</div>
+					</div>
 					<ul class="list-disc pl-6">
 						{% for item in feed_items %}
 							<li class="mb-2">
