@@ -1,4 +1,7 @@
 import feedparser
+import timeago
+import time
+import datetime
 import xml.etree.ElementTree as ET
 
 from django.contrib.auth.models import User
@@ -43,6 +46,12 @@ def index(request):
             subscriptions = RSSFeed.objects.filter(default_page=True)
     
     for feed in subscriptions:
+        pub_date = feed.pub_date
+        if isinstance(pub_date, datetime.datetime):
+            now = datetime.datetime.now(datetime.timezone.utc)
+            relative_pub_date = timeago.format(pub_date, now)
+            feed.relative_pub_date = relative_pub_date
+        
         parsed_feed_link = feedparser.parse(feed.link)
         feeds_by_source[feed.title] = []
         for entry in parsed_feed_link.entries:
@@ -54,9 +63,18 @@ def index(request):
                 )
             except IntegrityError as e:
                 continue
+            
+            published = feed.relative_pub_date
+            if hasattr(entry, 'published_parsed'):
+                published_parsed = entry.published_parsed
+                now_datetime = datetime.datetime.now(datetime.timezone.utc)
+                datetime_published_parsed = datetime.datetime(*published_parsed[:6], tzinfo=datetime.timezone.utc)
+                relative_published_parsed = timeago.format(datetime_published_parsed, now_datetime)
+                published = relative_published_parsed
+            
             feeds_by_source[feed.title].append({
                 'title': entry.title,
-                'date_time': entry.get('published', ''),
+                'date_time': published,
                 'link': entry.link,
                 'rss_feed_item_id': rss_feed_item.id,
             })
