@@ -21,6 +21,16 @@ const initShade = () => {
 	        }
 	    });
 	});
+	
+	const toggleButton = document.querySelector('.toggle-minimized-feed-list');
+    const minimizedFeedList = document.querySelector('.ul-minimized-feed-list');
+    toggleButton.addEventListener('click', function() {
+        if (minimizedFeedList.style.display === 'none' || minimizedFeedList.style.display === '') {
+            minimizedFeedList.style.display = 'block';
+        } else {
+            minimizedFeedList.style.display = 'none';
+        }
+    });
 }
 
 const addToMinimizedFeedList = (target) => {
