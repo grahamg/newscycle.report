@@ -78,10 +78,22 @@ ul {
 	bottom: 20px;
 	right: 20px;
 	background-color: rgba(0, 0, 0, 0.7);
+	transition: background-color 0.3s, color 0.3s;
 	color: white;
-	padding: 10px;
 	border-radius: 5px;
 	display: none;
+	font-size: 25px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	padding-right: 20px;
+	padding-left: 20px;
+	padding-bottom: 10px;
+	padding-top: 5px;
+}
+
+.scroll-to-top:hover {
+	background-color: white;
+	color: black;
 }
 
 .minimized-feed-list {
@@ -112,6 +124,26 @@ ul {
 }
 
 .minimized-feed-list li:hover {
+	background-color: white;
+	color: black;
+}
+
+.toggle-minimized-feed-list {
+	border: 1px solid white;
+	border-radius: 5px;
+	background-color: rgba(255, 255, 255, 0.1);
+	transition: background-color 0.3s, color 0.3s;
+	cursor: pointer;
+	font-size: 25px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 5px;
+	padding-top: 0px;
+}
+
+.toggle-minimized-feed-list:hover {
 	background-color: white;
 	color: black;
 }

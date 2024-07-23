@@ -24,8 +24,10 @@ const initShade = () => {
 	
 	const toggleButton = document.querySelector('.toggle-minimized-feed-list');
     const minimizedFeedList = document.querySelector('.ul-minimized-feed-list');
-    toggleButton.addEventListener('click', function() {
-        if (minimizedFeedList.style.display === 'none' || minimizedFeedList.style.display === '') {
+    toggleButton.addEventListener('click', function(event) {
+		event.preventDefault();
+		
+        if (minimizedFeedList.style.display === 'none' || minimizedFeedList.style.display === 'none') {
             minimizedFeedList.style.display = 'block';
         } else {
             minimizedFeedList.style.display = 'none';
