@@ -1,5 +1,3 @@
-console.log('Loaded scroll.js');
-
 const toggleScrollToTopBtn = () => {
 	const scrollToTop = document.querySelector('.scroll-to-top');
 	

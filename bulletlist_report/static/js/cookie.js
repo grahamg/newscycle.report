@@ -1,5 +1,3 @@
-console.log('Loaded cookie.js');
-
 const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

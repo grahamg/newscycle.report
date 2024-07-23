@@ -1,5 +1,3 @@
-console.log('Loaded feed_tab_select.js');
-
 function* iterateObject(obj) {
     const keys = Object.keys(obj);
     let index = 0;

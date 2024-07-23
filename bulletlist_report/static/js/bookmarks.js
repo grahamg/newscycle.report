@@ -1,6 +1,3 @@
-// static/js/bookmarks.js
-console.log('Loaded bookmarks.js');
-
 function removeAllEventListeners(element) {
     const newElement = element.cloneNode(true);
     element.parentNode.replaceChild(newElement, element);

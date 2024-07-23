@@ -8,6 +8,7 @@
 {% block head %}
 	<link href="{% static 'css/feeds.css' %}" rel="stylesheet">
 	<script src="{% static 'js/cookie.js' %}"></script>
+	<script src="{% static 'js/mobile.js' %}"></script>
 	<script src="{% static 'js/bookmarks.js' %}"></script>
 	<script src="{% static 'js/mobile.js' %}"></script>
 	<script src="{% static 'js/feed_tab_select.js' %}"></script>
@@ -16,9 +17,7 @@
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			getBookmarks();
-			
 			initFeedTabSelect();
-			
 			const minimizedFeedList = document.querySelector('.minimized-feed-list');
 			minimizedFeedList.style.display = 'none';
 			initShade();
@@ -52,13 +51,14 @@
 
 {% block content %}
 	<div onClick="scrollTo({ top: 0, behavior: 'smooth' })" class="scroll-to-top">
-		<a href="#">⬆︎</a>
+		<a href="#">⏫️</a>
 	</div>
 
 	<div class="minimized-feed-list">
 		<div class="flex justify-between items-center">
+			<div></div>
 			<div class="toggle-minimized-feed-list">
-				<a href="#">⬇︎⬆︎</a>
+				<a href="#">↕️</a>
 			</div>
 		</div>
 		<ul class="ul-minimized-feed-list">
@@ -73,8 +73,8 @@
 						<div>
 							<h3 id="{{ feed_title|slugify_string }}" class="feed-title text-xl font-bold mb-4">{{ feed_title }}</h3>
 						</div>
-						<div>
-							<a href="#" id="toggle-shade-{{ feed_title|slugify_string }}" class="toggle-shade text-black hover:text-blue-700">#</a>
+						<div class="toggle-shade-box">
+							<a href="#" id="toggle-shade-{{ feed_title|slugify_string }}" class="toggle-shade text-black hover:text-blue-700">↕️</a>
 						</div>
 					</div>
 					<ul class="list-disc pl-6">
