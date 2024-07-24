@@ -131,6 +131,15 @@ LOGIN_REDIRECT_URL = 'index'
 
 LOGOUT_REDIRECT_URL = '/'
 
+# OpenAI API
+
+OPENAI_API_KEY = ''
+
+# Celery task queue
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
 # Override the pre-defined settings set earlier in this file with
 # what is defined in production_settings.py which is not managed by git.
 UNTRACKED_SETTINGS_FILE = Path(__file__).resolve().parent / 'untracked_settings.py'

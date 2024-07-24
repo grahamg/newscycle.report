@@ -9,4 +9,5 @@ urlpatterns = [
     re_path(r'^~(?P<username>[\w.@+-]+)/(?P<format>(raw|json|xml))/$', feed_views.bookmarks_format, name='bookmarks_format'),
     path('subscriptions/', feed_views.subscriptions, name='subscriptions'),
     path('api/v1/bookmark/', feed_views.APIBookmarkActionView.as_view(), name='api_bookmark'),
+    path('api/v1/summary/', feed_views.APISummaryActionView.as_view(), name='api_summary'),
 ]

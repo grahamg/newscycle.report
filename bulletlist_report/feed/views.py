@@ -19,6 +19,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
+from .permissions import HasSummaryAccess
+from .tasks import summarize_rss_feed_item
 from .forms import OPMLUploadForm, SubscriptionForm
 from .models import RSSFeed, RSSFeedItem, UserSubscription, UserBookmark
 
@@ -203,7 +205,38 @@ class APIBookmarkActionView(APIView):
             'status': 'success',
             'created': user_bookmark_created,
         }
-        return Response(response_data, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_202_ACCEPTED)
+
+
+class APISummaryActionView(APIView):
+    permission_classes = [HasSummaryAccess]
+    
+    def get(self, request, *args, **kwargs):
+        return Response({"error": "The method is not implemented"}, status=status.HTTP_501_NOT_IMPLEMENTED)
+    
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        queued_by = request.user
+        rss_feed_item_id = data.get('id') or None
+        
+        if feed_item_id is None:
+            return Response({"error": "Invalid parameter 'id'"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        rss_feed_item = RSSFeedItem.objects.get(id=feed_item_id)
+        rss_feed = rss_feed_item.feed
+        if rss_feed.summaries_enabled() is False
+            return Response({"error": "Forbidden"}, status=status.HTTP_403_FORBIDDEN)
+        
+        # Enqueue the celery task
+        summarize_rss_feed_item.delay(rss_feed_item_id=rss_feed_item_id, user=queued_by)
+        
+        response_data = {
+            'id': rss_feed_item_id,
+            'action': 'enqueue',
+            'status': 'success',
+        }
+        return Response(response_data, status=status.HTTP_202_ACCEPTED)
+
 
 @staff_member_required
 def upload_opml(request):
