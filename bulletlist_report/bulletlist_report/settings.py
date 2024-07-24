@@ -81,6 +81,12 @@ DATABASES = {
     }
 }
 
+
+# User Model
+# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-user-model
+
+AUTH_USER_MODEL = 'user.models.UserProfile'
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
