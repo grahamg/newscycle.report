@@ -83,6 +83,22 @@ def index(request):
     
     return render(request, 'feeds.html', {'feeds': feeds_by_source})
 
+def test_push_message(request):
+    """
+    Temporary-- Adding this as a temporary test to confirm push messages are working.
+    """
+    message = "This is a notification"
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group)(
+        'notifications_notifications',
+        {
+            'type': 'chat_message',
+            'message': message
+        }
+    )
+    
+    return JsonResponse({'status': 'Notification sent'})
+
 def about(request):
     return render(request, 'about.html')
 

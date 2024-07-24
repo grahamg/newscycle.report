@@ -7,6 +7,8 @@ beautifulsoup4==4.12.3
 billiard==4.2.0
 celery==5.4.0
 certifi==2024.7.4
+channels==4.1.0
+channels-redis==4.2.0
 charset-normalizer==3.3.2
 click==8.1.7
 click-didyoumean==0.3.1
@@ -28,6 +30,7 @@ jedi==0.19.1
 kombu==5.3.7
 lxml==5.2.2
 matplotlib-inline==0.1.7
+msgpack==1.0.8
 openai==1.37.0
 packaging==24.1
 parso==0.8.4
