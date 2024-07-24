@@ -224,7 +224,7 @@ class APISummaryActionView(APIView):
         
         rss_feed_item = RSSFeedItem.objects.get(id=feed_item_id)
         rss_feed = rss_feed_item.feed
-        if rss_feed.summaries_enabled() is False
+        if rss_feed.summaries_enabled() is False:
             return Response({"error": "Forbidden"}, status=status.HTTP_403_FORBIDDEN)
         
         # Enqueue the celery task

@@ -15,7 +15,7 @@ class SummaryRequestContext(models.Model):
     ]
     
     prompt_template = models.TextField()
-    api_provider = models.CharField(max_length=10, choices=PROVIDER_CHOICES, default='chatgpt')
+    api_provider = models.CharField(max_length=10, choices=API_PROVIDER_CHOICES, default='chatgpt')
     engine = models.CharField(max_length=10, null=True, blank=True)
     max_tokens = models.IntegerField(null=True, blank=True)
     
@@ -34,7 +34,7 @@ class RSSFeed(models.Model):
     default_page = models.BooleanField(default=True)
     category = models.ForeignKey(RSSFeedCategory, null=True, blank=True, on_delete=models.CASCADE)
     visible = models.BooleanField(default=True)
-    summary_request_context = models.ForeignKey(SummaryRequestContext, null=True, blank=True)
+    summary_request_context = models.ForeignKey(SummaryRequestContext, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

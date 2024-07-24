@@ -3,8 +3,8 @@ import openai
 from django.conf import settings
 from django.template import Template, Context
 
-from .models import RSSFeedItem
-from .exceptions import NotImplementedException
+from feed.models import RSSFeedItem
+from feed.exceptions import NotImplementedException
 
 openai.api_key = settings.OPENAI_API_KEY
 
