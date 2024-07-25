@@ -1,14 +1,13 @@
-from django.urls import path, re_path, include
-from django.contrib.auth import views as auth_views
-from . import views as feed_views
+from django.urls import path, re_path
+from . import views
 
 urlpatterns = [
-    path('', feed_views.index, name='index'),
-    path('about/', feed_views.about, name='about'),
-    path('test_push_message/', feed_views.test_push_message, name='test_push_message'),
-    path('~<str:username>/', feed_views.bookmarks, name='bookmarks'),
-    re_path(r'^~(?P<username>[\w.@+-]+)/(?P<format>(raw|json|xml))/$', feed_views.bookmarks_format, name='bookmarks_format'),
-    path('subscriptions/', feed_views.subscriptions, name='subscriptions'),
-    path('api/v1/bookmark/', feed_views.APIBookmarkActionView.as_view(), name='api_bookmark'),
-    path('api/v1/summary/', feed_views.APISummaryActionView.as_view(), name='api_summary'),
+    path('', views.index, name='index'),
+    path('about/', views.about, name='about'),
+    path('test_push_message/', views.test_push_message, name='test_push_message'),
+    path('~<str:username>/', views.bookmarks, name='bookmarks'),
+    re_path(r'^~(?P<username>[\w.@+-]+)/(?P<format>(raw|json|xml))/$', views.bookmarks_format, name='bookmarks_format'),
+    path('subscriptions/', views.subscriptions, name='subscriptions'),
+    path('api/v1/bookmark/', views.APIBookmarkActionView.as_view(), name='api_bookmark'),
+    path('api/v1/summary/', views.APISummaryActionView.as_view(), name='api_summary'),
 ]
