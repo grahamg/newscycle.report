@@ -87,17 +87,17 @@ def test_push_message(request):
     """
     Temporary-- Adding this as a temporary test to confirm push messages are working.
     """
-    message = "This is a notification"
+    from channels.layers import get_channel_layer
+    from asgiref.sync import async_to_sync
     channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group)(
-        'notifications_notifications',
+    async_to_sync(channel_layer.group_send)(
+        'notifications_notifications',  # Group name must match
         {
             'type': 'chat_message',
-            'message': message
+            'message': 'Hello from Django!',
         }
     )
-    
-    return JsonResponse({'status': 'Notification sent'})
+    return JsonResponse({'status': 'Message sent'})
 
 def about(request):
     return render(request, 'about.html')
