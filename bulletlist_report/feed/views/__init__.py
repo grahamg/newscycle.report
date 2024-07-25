@@ -3,6 +3,7 @@ from .api import APIBookmarkActionView, APISummaryActionView
 from .bookmarks import bookmarks, bookmarks_format
 from .core import index, test_push_message, about
 from .subscriptions import subscriptions
+from .task import APITaskStatusView
 
 __all__ = [
     'upload_opml',
@@ -14,4 +15,5 @@ __all__ = [
     'test_push_message',
     'about',
     'subscriptions',
-]
+    'APITaskStatusView',
+] 

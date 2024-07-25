@@ -10,4 +10,5 @@ urlpatterns = [
     path('subscriptions/', views.subscriptions, name='subscriptions'),
     path('api/v1/bookmark/', views.APIBookmarkActionView.as_view(), name='api_bookmark'),
     path('api/v1/summary/', views.APISummaryActionView.as_view(), name='api_summary'),
+    path('api/v1/task/<int:task_id>/', views.APITaskStatusView.as_view(), name='api_task'),
 ]
