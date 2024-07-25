@@ -5,4 +5,4 @@ class UserProfile(AbstractUser):
     private = models.BooleanField(default=False)
     bio = models.TextField(null=True, blank=True)
     has_summary_access = models.BooleanField(default=False)
-    private_bookmarks = models.BooleanField(defualt=False)
+    private_bookmarks = models.BooleanField(default=False)
