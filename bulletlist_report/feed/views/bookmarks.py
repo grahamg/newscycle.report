@@ -1,10 +1,13 @@
 import xml.etree.ElementTree as ET
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 
 from ..models import UserBookmark
+
+User = get_user_model()
 
 def bookmarks(request, username):
     url_user = User.objects.get(username=username)
