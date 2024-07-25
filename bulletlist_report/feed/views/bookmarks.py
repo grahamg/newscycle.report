@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 
-from .models import UserBookmark
+from ..models import UserBookmark
 
 def bookmarks(request, username):
     url_user = User.objects.get(username=username)

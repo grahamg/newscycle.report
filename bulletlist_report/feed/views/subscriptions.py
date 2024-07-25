@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import SubscriptionForm
-from .models import UserSubscription, RSSFeed
+from ..forms import SubscriptionForm
+from ..models import UserSubscription, RSSFeed
 
 @login_required
 def subscriptions(request):

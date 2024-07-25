@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.db import IntegrityError
 
-from .models import RSSFeed, RSSFeedItem, UserSubscription, UserBookmark
+from ..models import RSSFeed, RSSFeedItem, UserSubscription, UserBookmark
 
 def index(request):
     subscriptions = []

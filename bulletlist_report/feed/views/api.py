@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
-from .permissions import HasSummaryAccess
-from .tasks import summarize_rss_feed_item
-from .models import RSSFeedItem, UserBookmark
+from ..permissions import HasSummaryAccess
+from ..tasks import summarize_rss_feed_item
+from ..models import RSSFeedItem, UserBookmark
 
 class APIBookmarkActionView(APIView):
     permission_classes = [IsAuthenticated]
