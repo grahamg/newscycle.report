@@ -1,7 +1,10 @@
+import feedparser
+
 from django.shortcuts import render, redirect
 from django.contrib.admin.views.decorators import staff_member_required
 
 from ..forms import OPMLUploadForm
+from ..models import RSSFeed
 
 @staff_member_required
 def upload_opml(request):
@@ -30,7 +33,7 @@ def upload_opml(request):
                                 'pub_date': entry.published if hasattr(entry, 'published') else None,
                             }
                         )
-            return redirect('admin:app_list', app_label='your_app_name')
+            return redirect('admin')
     else:
         form = OPMLUploadForm()
     return render(request, 'admin/upload_opml.html', {'form': form})
