@@ -24,7 +24,8 @@ class SummaryRequestService(object):
         self.rss_feed_item = self._get_rss_feed_item()
     
     def __call__(self):
-        response = self.api_client.create(
+        api_client = self.api_client
+        response = api_client.create(
             engine = self.engine,
             prompt = self.prompt,
             max_tokens = self.max_tokens

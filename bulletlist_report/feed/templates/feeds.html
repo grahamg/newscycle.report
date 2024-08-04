@@ -13,6 +13,7 @@
 	<script src="{% static 'js/feed_tab_select.js' %}"></script>
 	<script src="{% static 'js/shade.js' %}"></script>
 	<script src="{% static 'js/scroll.js' %}"></script>
+	<script src="{% static 'js/summary.js' %}"></script>
 	<script src="{% static 'js/notifications.js' %}"></script>
 	<script src="{% static 'js/task.js' %}"></script>
 	<script>
@@ -86,21 +87,28 @@
 						{% for item in feed_items %}
 							<li class="mb-2">
 								<a href="{{ item.link }}" class="feed_uri" target="_blank">{{ item.title|truncate_long_words:30 }}</a>
-								<div class="text-sm shadow-xl border-2 border-opacity-25 bg-slate-100 text-gray-500 hover:text-black">
+								<div class="text-sm shadow-xl border-2 border-opacity-25 bg-slate-100 text-gray-500">
 									{% if user.is_authenticated %}
-										<div class="inline-block px-1 rounded">
-											<a href="#" onClick="userBookmark(event, {{ item.rss_feed_item_id }}, 'add')" class="rss-feed-item" id="rss-feed-item-id-{{ item.rss_feed_item_id }}">🔖</a>
+										<div class="inline-block px-1 rounded mr-2">
+											<a href="#" onClick="userBookmark(event, {{ item.rss_feed_item_id }}, 'add')" class="rss-feed-item" id="rss-feed-item-id-{{ item.rss_feed_item_id }}">
+												<span class="emoji">🔖</span>
+											</a>
 										</div>
 									{% endif %}
-									<div class="inline-block bg-gray-100 px-1 rounded">
+									{% if user.has_summary_access %}
+										<div class="inline-block bg-gray-100 hover:text-black px-1 rounded mr-2">
+											<i><a href="#" onClick="enqueueRSSFeedItemSummary(event, {{ item.rss_feed_item_id }})" class="rss-feed-item-summary" id="rss-feed-item-summary-id-{{ item.rss_feed_item_id }}">summary</a></i>
+										</div>
+									{% endif %}
+									<div class="inline-block bg-gray-100 hover:text-black px-1 rounded">
 										<i><a href="https://archive.ph/submit/?url={{ item.link }}" target="_blank">archive</a></i>
 									</div>
-									<div class="inline-block bg-gray-100 px-1 rounded">
+									<div class="inline-block bg-gray-100 hover:text-black px-1 rounded mr-2">
 										<i><a href="https://12ft.io/{{ item.link }}" target="_blank">proxy</a></i>
 									</div>
 									{% if item.date_time %}
 										<div class="inline-block bg-gray-100 px-1 rounded">
-											<i>{{ item.date_time }}</i>
+											{{ item.date_time }}
 										</div>
 									{% endif %}
 								</div>

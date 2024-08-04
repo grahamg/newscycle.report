@@ -69,6 +69,14 @@ ul {
     padding-left: 1.5rem; /* Indentation for bullets */
 }
 
+.emoji {
+    display: inline-block;
+    transition: transform 0.2s ease-in-out;
+}
+.emoji:hover {
+    transform: scale(1.5);
+}
+
 .hidden {
 	display:none;
 }

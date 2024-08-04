@@ -1,11 +1,17 @@
 from django.contrib import admin
 from django.urls import path
-from .models import RSSFeed, RSSFeedCategory, RSSFeedItem, UserSubscription, UserBookmark
+from .models import RSSFeed, RSSFeedCategory, RSSFeedItem, UserSubscription, UserBookmark, SummaryRequestContext
 from .views import upload_opml
 
 @admin.register(RSSFeedCategory)
 class RSSFeedCategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
+
+@admin.register(SummaryRequestContext)
+class SummaryRequestContextAdmin(admin.ModelAdmin):
+    list_display = ('prompt_template', 'api_provider', 'engine', 'max_tokens')
+    search_fields = ('prompt_template', 'api_provider')
+    list_filter = ('api_provider',)
 
 @admin.register(RSSFeedItem)
 class RSSFeedItemAdmin(admin.ModelAdmin):

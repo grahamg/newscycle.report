@@ -1,6 +1,13 @@
+import random
+import string
+
 from django.conf import settings
 from django.db import models
 from datetime import datetime
+
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))
 
 class RSSFeedCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -13,17 +20,38 @@ class SummaryRequestContext(models.Model):
         ('chatgpt', 'OpenAI ChatGPT'),
         ('gemini', 'Google Gemini'),
     ]
-    
-    prompt_template = models.TextField()
-    api_provider = models.CharField(max_length=10, choices=API_PROVIDER_CHOICES, default='chatgpt')
-    engine = models.CharField(max_length=10, null=True, blank=True)
-    max_tokens = models.IntegerField(null=True, blank=True)
+    name = models.CharField(
+        max_length=255,
+        unique=True,
+        default=get_random_string(6),
+        help_text='Not used with API provider call, a unique name identifier used to differentiate against multiple context choices.'
+    )
+    prompt_template = models.TextField(
+        help_text=f'Use {{ feed_item_url }} template tag as placeholder for article to summarize.'
+    )
+    api_provider = models.CharField(
+        max_length=10,
+        choices=API_PROVIDER_CHOICES,
+        default='chatgpt',
+        help_text='Specifies which API provider to use for summary requests.'
+    )
+    engine = models.CharField(
+        max_length=10,
+        null=True,
+        blank=True,
+        help_text='Optional. If nothing is specified here, "gpt-4" will be used.'
+    )
+    max_tokens = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text='Optional. If nothing is specified here, the quantity 150 will be used.'
+    )
     
     class Meta:
         unique_together = ('prompt_template', 'api_provider', 'engine', 'max_tokens')
     
     def __str__(self):
-        return f'Context for {self.api_provider} with prompt template: "{self.prompt_template}"'
+        return self.name
 
 class RSSFeed(models.Model):
     title = models.CharField(max_length=255, unique=True)
@@ -34,7 +62,13 @@ class RSSFeed(models.Model):
     default_page = models.BooleanField(default=True)
     category = models.ForeignKey(RSSFeedCategory, null=True, blank=True, on_delete=models.CASCADE)
     visible = models.BooleanField(default=True)
-    summary_request_context = models.ForeignKey(SummaryRequestContext, null=True, blank=True, on_delete=models.CASCADE)
+    summary_request_context = models.ForeignKey(
+        SummaryRequestContext,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        help_text='Optional. Specifies API parameters to the chosen provider. To disable summaries for a given feed source, leave the request context field blank.'
+    )
 
     def __str__(self):
         return self.title
@@ -91,7 +125,6 @@ class UserBookmark(models.Model):
         return f'{self.user.username} bookmarked rss item "{self.rss_feed_item}" from {self.rss_feed_item.feed}'
 
 class RSSFeedItemSummaryRequest(models.Model):
-    queued_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     rss_feed_item = models.ForeignKey(RSSFeedItem, related_name='summary_requests', on_delete=models.CASCADE)
     request_context = models.ForeignKey(SummaryRequestContext, related_name='summary_requests', on_delete=models.CASCADE)
     prompt = models.TextField()
@@ -100,7 +133,7 @@ class RSSFeedItemSummaryRequest(models.Model):
     response = models.ForeignKey('RSSFeedItemSummaryResponse', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f'Summary request queued by {self.queued_by} for "{self.rss_feed_item}" at {self.requested_on}'
+        return f'Summary request queued for "{self.rss_feed_item}" at {self.requested_on}'
 
 class RSSFeedItemSummaryResponse(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)

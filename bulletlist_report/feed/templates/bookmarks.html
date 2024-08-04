@@ -5,6 +5,7 @@
 {% block title %}bulletlist.report{% endblock %}
 
 {% block head %}
+	<link href="{% static 'css/feeds.css' %}" rel="stylesheet">
 	<script src="{% static 'js/cookie.js' %}"></script>
 	<script src="{% static 'js/bookmarks.js' %}"></script>
 	<script>
@@ -62,9 +63,13 @@
 				</p>
 			{% endif %}
 			{% if user.is_authenticated and user.username == url_username %}
-				<a href="#" onClick="userBookmark(event, {{ headline.rss_feed_item.id }}, 'remove')" class="rss-feed-item" id="rss-feed-item-id-{{ headline.rss_feed_item.id }}">❎</a>
+				<a href="#" onClick="userBookmark(event, {{ headline.rss_feed_item.id }}, 'remove')" class="rss-feed-item" id="rss-feed-item-id-{{ headline.rss_feed_item.id }}">
+					<span class="emoji">❎</span>
+				</a>
 			{% elif user.is_authenticated %}
-				<a href="#" onClick="userBookmark(event, {{ headline.rss_feed_item.id }}, 'add')" class="rss-feed-item" id="rss-feed-item-id-{{ headline.rss_feed_item.id }}">🔖</a>
+				<a href="#" onClick="userBookmark(event, {{ headline.rss_feed_item.id }}, 'add')" class="rss-feed-item" id="rss-feed-item-id-{{ headline.rss_feed_item.id }}">
+					<span class="emoji">🔖</span>
+				</a>
 			{% endif %}
 			<div class="inline-block bg-gray-100 px-1 rounded">
 				{{ headline.rss_feed_item.feed }}

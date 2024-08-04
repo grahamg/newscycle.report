@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
+from bulletlist_report.celery import debug_task
 from ..permissions import HasSummaryAccess
 from ..tasks import summarize_rss_feed_item
 from ..models import RSSFeedItem, UserBookmark
@@ -65,7 +66,6 @@ class APISummaryActionView(APIView):
     
     def post(self, request, *args, **kwargs):
         data = request.data
-        queued_by = request.user
         rss_feed_item_id = data.get('id') or None
         
         if rss_feed_item_id is None:
@@ -73,11 +73,10 @@ class APISummaryActionView(APIView):
         
         rss_feed_item = RSSFeedItem.objects.get(id=rss_feed_item_id)
         rss_feed = rss_feed_item.feed
-        if rss_feed.summaries_enabled() is False:
+        if rss_feed.summaries_enabled is False:
             return Response({"error": "Forbidden"}, status=status.HTTP_403_FORBIDDEN)
         
-        # Enqueue the celery task
-        summarize_rss_feed_item.delay(rss_feed_item_id=rss_feed_item_id, user=queued_by)
+        result = debug_task.delay()
         
         response_data = {
             'id': rss_feed_item_id,
