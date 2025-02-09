@@ -1,4 +1,4 @@
-bulletlist_report/staticfiles/
+newscycle_report/staticfiles/
 db.sqlite
 untracked_settings.py
 .DS_store
@@ -166,3 +166,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+*~
