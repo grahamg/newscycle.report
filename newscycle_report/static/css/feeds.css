@@ -16,37 +16,13 @@
     }
 }
 
-@media (min-width: 1536px) {
+@media (min-width: 1500px) {
     .masonry {
-        column-count: 8;
+        column-count: 4;
     }
 	.container {
-		max-width: 3234px;
+		max-width: 4234px;
 	}
-}
-
-@media (min-width: 1920px) {
-    .masonry {
-        column-count: 5;
-    }
-}
-
-@media (min-width: 2560px) {
-    .masonry {
-        column-count: 5;
-    }
-}
-
-@media (min-width: 3200px) {
-    .masonry {
-        column-count: 5;
-    }
-}
-
-@media (min-width: 3840px) {
-    .masonry {
-        column-count: 5;
-    }
 }
 
 .masonry {

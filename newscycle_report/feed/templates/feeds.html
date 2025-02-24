@@ -3,7 +3,7 @@
 {% load custom_filters %}
 {% load slugify_tags %}
 
-{% block title %}newscycle.report{% endblock %}
+{% block title %}News Cycle Report{% endblock %}
 
 {% block head %}
 	<link href="{% static 'css/feeds.css' %}" rel="stylesheet">
@@ -33,18 +33,28 @@
 			</div>
 			<div>
 				<a href="{% url 'about' %}" class="text-black hover:text-blue-700 mr-4">About</a>
+				<a href="{% url 'premium' %}" class="text-black hover:text-blue-700 mr-4">Premium</a>
 				<a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700 mr-4">Bookmarks</a>
 				<a href="{% url 'subscriptions' %}" class="text-black hover:text-blue-700 mr-4">Subscriptions</a>
 				<a href="{% url 'logout' %}" class="text-black hover:text-blue-700 mr-4">Logout</a>
 			</div>
+			{% if last_update %}
+				<div class="last-update">
+					Last updated on {{ last_update|date:"l, F j, Y g:i A e" }}
+				</div>
+			{% endif %}
 		{% else %}
 			<div>
 				<a href="{% url 'login' %}" class="text-black hover:text-blue-700 mr-4">Login</a>
-				<a href="{% url 'register' %}" class="text-black hover:text-blue-700">Register</a>
-			</div>
-			<div>
+				<a href="{% url 'register' %}" class="text-black hover:text-blue-700 mr-4">Register</a>
+				<a href="{% url 'premium' %}" class="text-black hover:text-blue-700 mr-4">Premium</a>
 				<a href="{% url 'about' %}" class="text-black hover:text-blue-700">About</a>
 			</div>
+			{% if last_update %}
+				<div class="last-update">
+					Last updated on {{ last_update|date:"l, F j, Y g:i A e" }}
+				</div>
+			{% endif %}
 		{% endif %}
 	</div>
 {% endblock %}

@@ -1,6 +1,21 @@
 from django.conf import settings
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
+import timeago
+
+class RSSDateTimeUpdate(models.Model):
+    updated = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-updated']
+
+    def get_next_snapshot(self):
+        return RSSDateTimeUpdate.objects.filter(updated__gt=self.updated).order_by('updated').first()
+
+    def get_previous_snapshot(self):
+        return RSSDateTimeUpdate.objects.filter(updated_lt=self.updated).order_by('-updated').first()
 
 class RSSFeedCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -12,11 +27,16 @@ class RSSFeed(models.Model):
     title = models.CharField(max_length=255, unique=True)
     link = models.URLField(unique=True)
     description = models.TextField(blank=True, null=True)
-    pub_date = models.DateTimeField(auto_now=True)
+    pub_date = models.DateTimeField()
     updated = models.DateTimeField(auto_now=True)
     default_page = models.BooleanField(default=True)
     category = models.ForeignKey(RSSFeedCategory, null=True, blank=True, on_delete=models.CASCADE)
     visible = models.BooleanField(default=True)
+
+    @property
+    def relative_pub_date(self):
+        """Returns a human-readable relative time string."""
+        return timeago.format(self.pub_date, timezone.now())
 
     def __str__(self):
         return self.title
@@ -24,8 +44,10 @@ class RSSFeed(models.Model):
 class RSSFeedItem(models.Model):
     title = models.CharField(max_length=255)
     link = models.URLField(unique=True)
-    pub_date = models.DateTimeField(auto_now=True)
+    pub_date = models.DateTimeField()
+    collected_date = models.DateTimeField()
     feed = models.ForeignKey(RSSFeed, on_delete=models.CASCADE)
+    snapshot = models.ForeignKey(RSSDateTimeUpdate, on_delete=models.CASCADE)
     
     def __str__(self):
         return f'{self.title} -> {self.link}'

@@ -3,6 +3,7 @@ import timeago
 import time
 import datetime
 import xml.etree.ElementTree as ET
+import pytz
 
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -13,6 +14,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import ObjectDoesNotExist
 from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.db import IntegrityError
+from django.utils import timezone
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -20,12 +22,28 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 from .forms import OPMLUploadForm, SubscriptionForm
-from .models import RSSFeed, RSSFeedItem, UserSubscription, UserBookmark
+from .models import RSSFeed, RSSFeedItem, UserSubscription, UserBookmark, RSSDateTimeUpdate
 
 def index(request):
     subscriptions = []
     feeds_by_source = {}
-    
+    snapshot_id = request.GET.get('snapshot')
+
+    if snapshot_id:
+        snapshot = get_object_or_404(RSSDateTimeUpdate, id=snapshot_id)
+    else:
+        snapshot = RSSDateTimeUpdate.objects.latest('updated')
+
+    # Get feed items for this snapshot
+    feed_items = RSSFeedItem.objects.filter(snapshot=snapshot)
+
+    # Organize items by feed
+    feeds_by_source = {}
+    for item in feed_items:
+        if item.feed not in feeds_by_source:
+            feeds_by_source[item.feed] = []
+        feeds_by_source[item.feed].append(item)
+
     # Check if this is the user's first visit
     if not request.session.get('has_visited', False):
         welcome_message = render_to_string('new_visitor_message.html',
@@ -33,56 +51,53 @@ def index(request):
         messages.info(request, welcome_message)
         request.session['has_visited'] = True
     
+    # Get relevent feeds based on authentication status
     if not request.user.is_authenticated:
         subscriptions = RSSFeed.objects.filter(default_page=True)
     else:
         try:
             user_filter = UserSubscription.objects.filter(user=request.user)
-            for choice in user_filter:
-                subscriptions.append(choice.feed)
-        except ObjectDoesNotExist as e:
+            subscriptions = [choice.feed for choice in user_filter]
+        except ObjectDoesNotExist:
             subscriptions = RSSFeed.objects.filter(default_page=True)
-        except Exception as e:
+        except Exception:
             subscriptions = RSSFeed.objects.filter(default_page=True)
     
+    # Organize feed items by source
     for feed in subscriptions:
-        pub_date = feed.pub_date
-        if isinstance(pub_date, datetime.datetime):
-            now = datetime.datetime.now(datetime.timezone.utc)
-            relative_pub_date = timeago.format(pub_date, now)
-            feed.relative_pub_date = relative_pub_date
-        
-        parsed_feed_link = feedparser.parse(feed.link)
         feeds_by_source[feed.title] = []
-        for entry in parsed_feed_link.entries:
-            try:
-                rss_feed_item, rss_feed_item_created = RSSFeedItem.objects.get_or_create(
-                    title=entry.title,
-                    link=entry.link,
-                    feed=feed
-                )
-            except IntegrityError as e:
-                continue
-            
-            published = feed.relative_pub_date
-            if hasattr(entry, 'published_parsed'):
-                published_parsed = entry.published_parsed
-                now_datetime = datetime.datetime.now(datetime.timezone.utc)
-                datetime_published_parsed = datetime.datetime(*published_parsed[:6], tzinfo=datetime.timezone.utc)
-                relative_published_parsed = timeago.format(datetime_published_parsed, now_datetime)
-                published = relative_published_parsed
-            
-            feeds_by_source[feed.title].append({
-                'title': entry.title,
-                'date_time': published,
-                'link': entry.link,
-                'rss_feed_item_id': rss_feed_item.id,
-            })
-    
-    return render(request, 'feeds.html', {'feeds': feeds_by_source})
+
+        # Get the most recent items for this feed
+        feed_items = RSSFeedItem.objects.filter(
+            feed=feed
+        ).order_by('-pub_date')[:10] # Limit to recent items
+        
+        for item in feed_items:
+           # Use the pre-calculated relative date from manage.py command collect_rss
+           feeds_by_source[feed.title].append({
+                'title': item.title,
+                'date_time': item.feed.relative_pub_date,
+                'link': item.link,
+                'rss_feed_item_id': item.id,
+           }) 
+
+    # Get next/previous snapshots
+    next_snapshots = snapshot.get_next_snapshot()
+    previous_snapshot = snapshot.get_previous_snapshot()
+
+    return render(request, 'feeds.html', {
+        'feeds': feeds_by_source,
+        'last_update': last_update.updated,
+        'snapshot': snapshot,
+        'next_snapshot': next_snapshot,
+        'previous_snapshot': previous_snapshot,
+    })
 
 def about(request):
     return render(request, 'about.html')
+
+def premium(request):
+    return render(request, 'premium.html')
 
 @login_required
 def subscriptions(request):
