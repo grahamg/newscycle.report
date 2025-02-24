@@ -47,7 +47,7 @@ class RSSFeedItem(models.Model):
     pub_date = models.DateTimeField()
     collected_date = models.DateTimeField()
     feed = models.ForeignKey(RSSFeed, on_delete=models.CASCADE)
-    snapshot = models.ForeignKey(RSSDateTimeUpdate, on_delete=models.CASCADE)
+    snapshot = models.ForeignKey(RSSDateTimeUpdate, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return f'{self.title} -> {self.link}'
