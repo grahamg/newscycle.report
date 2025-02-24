@@ -82,12 +82,12 @@ def index(request):
            }) 
 
     # Get next/previous snapshots
-    next_snapshots = snapshot.get_next_snapshot()
+    next_snapshot = snapshot.get_next_snapshot()
     previous_snapshot = snapshot.get_previous_snapshot()
 
     return render(request, 'feeds.html', {
         'feeds': feeds_by_source,
-        'last_update': last_update.updated,
+        'last_update': snapshot.updated,
         'snapshot': snapshot,
         'next_snapshot': next_snapshot,
         'previous_snapshot': previous_snapshot,

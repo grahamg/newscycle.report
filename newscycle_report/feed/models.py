@@ -15,7 +15,7 @@ class RSSDateTimeUpdate(models.Model):
         return RSSDateTimeUpdate.objects.filter(updated__gt=self.updated).order_by('updated').first()
 
     def get_previous_snapshot(self):
-        return RSSDateTimeUpdate.objects.filter(updated_lt=self.updated).order_by('-updated').first()
+        return RSSDateTimeUpdate.objects.filter(updated__lt=self.updated).order_by('-updated').first()
 
 class RSSFeedCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
