@@ -14,16 +14,16 @@
         Logged in as <a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700">{{ user.username }}</a>
       </div>
       <div>
-        <a href="/" class="text-black hover:text-blue-700 mr-4">Feeds</a>
+        <a href="{% url 'index' %}" class="text-black hover:text-blue-700 mr-4">Reports</a>
         <a href="{% url 'bookmarks' user.username %}" class="text-black hover:text-blue-700 mr-4">Bookmarks</a>
         <a href="{% url 'subscriptions' %}" class="text-black hover:text-blue-700 mr-4">Subscriptions</a>
         <a href="{% url 'logout' %}" class="text-black hover:text-blue-700 mr-4">Logout</a>
       </div>
     {% else %}
       <div>
+        <a href="{% url 'index' %}" class="text-black hover:text-blue-700 mr-4">Reports</a>
         <a href="{% url 'login' %}" class="text-black hover:text-blue-700 mr-4">Login</a>
         <a href="{% url 'register' %}" class="text-black hover:text-blue-700 mr-4">Register</a>
-        <a href="/" class="text-black hover:text-blue-700">Feeds</a>
       </div>
     {% endif %}
   </div>
