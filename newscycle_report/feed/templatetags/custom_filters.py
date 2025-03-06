@@ -5,6 +5,18 @@ from django.utils.html import mark_safe
 register = template.Library()
 
 @register.filter
+def truncate_long_words(value, length):
+    """Truncate words that are longer than the specified length."""
+    words = value.split()
+    result = []
+    for word in words:
+        if len(word) > length:
+            result.append(word[:length] + "...")
+        else:
+            result.append(word)
+    return " ".join(result)
+
+@register.filter
 def highlight_keywords(text, keywords_str):
     if not keywords_str:
         return text
