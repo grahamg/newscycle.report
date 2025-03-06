@@ -1,23 +1,21 @@
+import re
 from django import template
-import html
+from django.utils.html import mark_safe
 
 register = template.Library()
 
-@register.filter(name="truncate_long_words")
-def truncate_long_words(value, max_length=10):
-    """
-    Truncate words in the string that are longer than max_length characters.
-    """
-    words = value.split()
-    truncated_words = [word if len(word) <= max_length else word[:max_length] + "..." for word in words]
-    return " ".join(truncated_words)
-
-@register.filter(name="decode_html_entities")
-def decode_html_entities(value):
-    """
-    Decode HTML entities in the given string.
-    """
-    if value:
-        return html.unescape(value)
-    return value
-
+@register.filter
+def highlight_keywords(text, keywords_str):
+    if not keywords_str:
+        return text
+        
+    keywords = [kw.strip().lower() for kw in keywords_str.split(',') if kw.strip()]
+    if not keywords:
+        return text
+    
+    highlighted_text = text
+    for keyword in keywords:
+        pattern = re.compile(f'({re.escape(keyword)})', re.IGNORECASE)
+        highlighted_text = pattern.sub(r'<span class="keyword-highlight">\1</span>', highlighted_text)
+    
+    return mark_safe(highlighted_text)

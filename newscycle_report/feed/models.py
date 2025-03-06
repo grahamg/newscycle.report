@@ -75,3 +75,12 @@ class UserBookmark(models.Model):
     
     def __str__(self):
         return f'{self.user.username} bookmarked rss item "{self.rss_feed_item}" from {self.rss_feed_item.feed}'
+
+class UserKeywordLists(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    highlight_keywords = models.TextField(blank=True, default="")
+    exclude_keywords = models.TextField(blank=True, default="")
+    updated_on = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f'Keyword lists for {self.user.username}'
