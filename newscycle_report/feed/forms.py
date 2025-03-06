@@ -1,5 +1,5 @@
 from django import forms
-from .models import RSSFeed, UserSubscription
+from .models import RSSFeed, UserSubscription, UserKeywordLists
 
 class OPMLUploadForm(forms.Form):
     opml_file = forms.FileField()
