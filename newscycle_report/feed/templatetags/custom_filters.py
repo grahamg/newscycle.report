@@ -1,8 +1,17 @@
-import re
+import re, html
 from django import template
 from django.utils.html import mark_safe
 
 register = template.Library()
+
+@register.filter(name="decode_html_entities")
+def decode_html_entities(value):
+    """
+    Decode HTML entities in the given string.
+    """
+    if value:
+        return html.unescape(value)
+    return value
 
 @register.filter
 def truncate_long_words(value, length):
