@@ -33,11 +33,6 @@ class RSSFeed(models.Model):
     category = models.ForeignKey(RSSFeedCategory, null=True, blank=True, on_delete=models.CASCADE)
     visible = models.BooleanField(default=True)
 
-    @property
-    def relative_pub_date(self):
-        """Returns a human-readable relative time string."""
-        return timeago.format(self.pub_date, timezone.now())
-
     def __str__(self):
         return self.title
 
@@ -48,9 +43,14 @@ class RSSFeedItem(models.Model):
     collected_date = models.DateTimeField()
     feed = models.ForeignKey(RSSFeed, on_delete=models.CASCADE)
     snapshot = models.ForeignKey(RSSDateTimeUpdate, on_delete=models.CASCADE, null=True)
-    
+
+    @property
+    def relative_pub_date(self):
+        """Returns a human-readable relative time string."""
+        return timeago.format(self.pub_date, timezone.now())
+
     def __str__(self):
-        return f'{self.title} -> {self.link}'
+        return self.link
 
 class UserSubscription(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
