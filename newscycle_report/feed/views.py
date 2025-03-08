@@ -121,7 +121,7 @@ def index(request):
             # Add the item to the list
             feeds_by_source[feed.title].append({
                 'title': item.title,
-                'date_time': item.feed.relative_pub_date,
+                'date_time': item.relative_pub_date,
                 'link': item.link,
                 'rss_feed_item_id': item.id,
             })
