@@ -46,7 +46,12 @@ ul {
 }
 
 .hidden {
-	display:none;
+    display:none;
+}
+
+.keyword-highlight {
+    background-color: #ffff99;
+    font-weight: bold;
 }
 
 .scroll-to-top {
