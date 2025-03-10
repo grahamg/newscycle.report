@@ -1,0 +1,56 @@
+
+/* Dark mode styles */
+.dark body {
+  background-color: #1a202c;
+  color: #e2e8f0;
+}
+
+.dark .bg-gray-100 {
+  background-color: #2d3748;
+}
+
+.dark .bg-gray-300 {
+  background-color: #4a5568;
+}
+
+.dark .text-black {
+  color: #e2e8f0;
+}
+
+.dark .border {
+  border-color: #4a5568;
+}
+
+/* Alert styles for dark mode */
+.dark .alert {
+  background-color: #2d3748;
+  color: #e2e8f0;
+}
+
+.dark a {
+  color: #90cdf4;
+}
+
+.dark a:hover {
+  color: #63b3ed;
+}
+
+.dark .hover\:bg-gray-200:hover {
+  background-color: #4a5568;
+}
+
+.dark .masonry > div {
+  background-color: #eeeeee;
+}
+
+/* Masonry item background in dark mode */
+.dark .masonry .item {
+  background-color: #37445c;
+}
+
+/* Transition for smooth theme switching */
+html.dark-mode-transition,
+html.dark-mode-transition * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+

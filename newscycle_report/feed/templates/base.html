@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-mode-transition">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9477216212362664"
      crossorigin="anonymous"></script>
   <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico"> 
   <link href="/static/css/tailwind.min.css" rel="stylesheet">
+  <link href="/static/css/dark-mode.css" rel="stylesheet">
   <title>{% block title %}News Cycle Report{% endblock %}</title>
   {% block head %}
   {% endblock %}
@@ -46,5 +48,6 @@
 	<footer class="bg-gray-100 text-black text-center py-4">
 	<p>&copy; 2025 newscycle.report. All rights reserved.</p>
 	</footer>
+  <script src="/static/js/dark-mode.js"></script>
 </body>
 </html>
